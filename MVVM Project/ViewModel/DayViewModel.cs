@@ -44,14 +44,16 @@ namespace Calendar.ViewModel
 
         public void AddEventToDay(Day d, CalendarEvent ev)
         {
-           
-            for(int i=0; i<28; i++)
-            {
-                if(Days[i].Date == d.Date)
-                {
-                    Days[i].Events.Add(ev);
-                }
-            }
+            d.Events.Add(ev);
+            d.Events = new ObservableCollection<CalendarEvent>(d.Events.OrderBy(i => i.Title));
+        }
+
+        public void EditEventOnDay(Day d, CalendarEvent ev)
+        {
+            d.Events.Remove(ev);
+            ev.Title = "HEHEHE";
+            d.Events.Add(ev);
+            d.Events = new ObservableCollection<CalendarEvent>(d.Events.OrderBy(i => i.Title));
         }
 
         void AddEventMethod(Object parameter)
@@ -68,56 +70,6 @@ namespace Calendar.ViewModel
 
         }
         public ICommand EditEvent { get { return new RelayCommand(EditEventMethod); } }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        //public ObservableCollection<CalendarEvent>[] Events
-        //{
-        //    get { return _events; }
-        //    set { _events = value; }
-        //}
-
-        //public DayViewModel()
-        //{
-        //    for (int i = 0; i < 28; i++ )
-        //        _events[i] = new ObservableCollection<CalendarEvent>();
-
-        //    _events[0].Add(new CalendarEvent { Title = "Sample event!" });
-        //    _events[0].Add(new CalendarEvent { Title = "Second event!" });
-        //}
-
-        //void EditEventMethod(Object parameter)
-        //{
-        //    CalendarEvent a = parameter as CalendarEvent;
-        //    Console.WriteLine(a.Title);
-        //}
-
-        //public ICommand EditEvent { get { return new RelayCommand(EditEventMethod); } }
-
-        //void AddEventMethod(Object parameter)
-        //{
-        //    int x = Int32.Parse(parameter as String);
-        //    _events[x].Add(new CalendarEvent { Title = "NEW EVENT :)" });
-        //}
-        //public ICommand AddEvent { get { return new RelayCommand(AddEventMethod); } }
 
     }
 }

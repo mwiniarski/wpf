@@ -28,5 +28,10 @@ namespace Calendar.View
                 this.Close();
             });
         }
+
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+
+        }
     }
 }

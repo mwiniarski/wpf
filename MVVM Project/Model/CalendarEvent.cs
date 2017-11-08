@@ -9,11 +9,18 @@ namespace Calendar.Model
     class CalendarEvent
     {
         string _title;
+        int hour;
+        int minute;
 
         public string Title
         {
             get { return _title; }
             set { _title = value; }
+        }
+
+        public int Time
+        {
+
         }
 
         public override string ToString()

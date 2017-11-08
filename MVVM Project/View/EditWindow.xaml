@@ -23,9 +23,9 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TextBox VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="50,5,0,5"/>
+            <TextBox PreviewTextInput="TextBox_PreviewTextInput" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="50,5,0,5"/>
             <Label  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" Content=":"/>
-            <TextBox VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="2" Margin="0,5,50,5"/>
+            <TextBox PreviewTextInput="TextBox_PreviewTextInput" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="2" Margin="0,5,50,5"/>
         </Grid>
         <Button Command="{Binding CloseCommand}"  Grid.Row="3" Margin="10" Content="Confirm"/>
     </Grid>

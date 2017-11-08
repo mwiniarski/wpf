@@ -2,6 +2,7 @@
 using Calendar.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -35,31 +36,28 @@ namespace Calendar.View
 
         private void StackPanel_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            Day d;
+            Day d = (Day)((StackPanel)sender).DataContext;
+            DayViewModel mainVM = this.dayVM;
+
             if (e.OriginalSource is StackPanel)
             {
-                var a = (StackPanel)e.OriginalSource;
-                d = (Day)a.DataContext;
-                Console.WriteLine(d.Date);
+                EditWindow wnd = new EditWindow();
+                EditViewModel editVM = wnd.editVM;
+                bool? res = wnd.ShowDialog();
+                if (res.HasValue && res.Value)
+                {
+                    mainVM.AddEventToDay(d, new CalendarEvent { Title = editVM.Title });
+                }
             }
-            else
-                return;
-
-            DayViewModel o1 = this.dayVM;
-            EditWindow wnd = new EditWindow();
-            EditViewModel s = wnd.editVM;
-            bool? res = wnd.ShowDialog();
-            
-            if (res.HasValue && res.Value)
+            else if (e.OriginalSource is TextBlock)
             {
-                Console.WriteLine("Tutaj");
-                o1.AddEventToDay(d, new CalendarEvent { Title = s.Title });
+                var t = (TextBlock)e.OriginalSource;
+                if(t.Name != "date")
+                {
+                    CalendarEvent ce = (CalendarEvent)t.DataContext;
+                    mainVM.EditEventOnDay(d, ce);
+                }
             }
         }        
-
-        private void ItemsControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
     }
 }
