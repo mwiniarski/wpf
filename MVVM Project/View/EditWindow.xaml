@@ -1,0 +1,32 @@
+﻿<Window x:Class="Calendar.View.EditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Calendar.ViewModel"
+        Title="EditWindow" Height="300" Width="300"
+        ResizeMode="NoResize"
+        FontSize="25">
+    <Window.DataContext>
+        <vm:EditViewModel x:Name="editVM"/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Add new event"></Label>
+        <TextBox Margin="5" TextWrapping="Wrap" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="1" Text="{Binding Title}"/>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBox VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="50,5,0,5"/>
+            <Label  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" Content=":"/>
+            <TextBox VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="2" Margin="0,5,50,5"/>
+        </Grid>
+        <Button Command="{Binding CloseCommand}"  Grid.Row="3" Margin="10" Content="Confirm"/>
+    </Grid>
+</Window>

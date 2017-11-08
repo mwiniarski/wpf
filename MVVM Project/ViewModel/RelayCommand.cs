@@ -9,8 +9,8 @@ namespace Calendar.ViewModel
 {
     class RelayCommand : ICommand
     {
-        readonly Action _execute;
-        public RelayCommand(Action execute)
+        readonly Action<Object> _execute;
+        public RelayCommand(Action<Object> execute)
         {
             if(execute == null)
                 throw new ArgumentNullException("execute");
@@ -26,7 +26,7 @@ namespace Calendar.ViewModel
 
         public void Execute(Object parameter)
         {
-            _execute();
+            _execute(parameter);
         }
     }
 }
