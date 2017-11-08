@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Calendar
+namespace Calendar.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -28,21 +28,7 @@ namespace Calendar
 
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            this.FontSize = e.NewSize.Height*0.035;
-        }
-
-        private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            ListBox listbox = sender as ListBox;
-            ListBoxItem itm = new ListBoxItem();
-            itm.Content = "KUPA123";
-            listbox.Items.Add(itm);
-
-            ItemCollection a = listbox.Items;
-            foreach(ListBoxItem f in a) 
-            {
-                f.Content += "Z";
-            }
+            this.FontSize = e.NewSize.Height * 0.035;
         }
     }
 }

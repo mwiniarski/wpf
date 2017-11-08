@@ -1,0 +1,241 @@
+﻿<Window x:Class="Calendar.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:v="clr-namespace:Calendar.View"
+        xmlns:vm="clr-namespace:Calendar.ViewModel"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+        Title="MainWindow" Height="350" Width="525"
+        MinHeight="350" MinWidth="525">
+    <Window.DataContext>
+        <!--<vm:MainWindowViewModel/>-->
+        <vm:DayViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <!--<Style TargetType="ListView">
+            <Setter Property="ItemsSource" Value="{Binding Events}"/>
+        </Style>-->
+        <Style TargetType="ListViewItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <TextBlock Text="{Binding Path=.}">
+                            <TextBlock.InputBindings>
+                                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=DataContext.EditEvent, 
+                                RelativeSource={RelativeSource
+                                AncestorType={x:Type Window}}}"/>
+                            </TextBlock.InputBindings>
+                        </TextBlock>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Command" Value="{Binding ButtonCommandProperty}"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#00008f"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#00008f"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+    </Window.Resources>
+    <Grid Background="#cbcbe8" Name="grid" SizeChanged="Grid_SizeChanged">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Button Name="Prev_0" CommandParameter="prev" Background="#cbe5e5" Grid.Column="0" Grid.Row="0" Content="prev"/>
+        <Button Name="Prev_1" CommandParameter="prev" Background="#cbe5e5" Grid.Column="8" Grid.Row="0" Content="prev"/>
+        <Button Name="Next_0" CommandParameter="next" Background="#cbe5e5" Grid.Column="0" Grid.Row="5" Content="next"/>
+        <Button Name="Next_1" CommandParameter="next" Background="#cbe5e5" Grid.Column="8" Grid.Row="5" Content="next"/>
+        
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Column="1" Text="Monday"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Column="2" Text="Tuesday"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Column="3" Text="Wednesday"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Column="4" Text="Thursday"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Column="5" Text="Friday"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Column="6" Text="Saturday"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Column="7" Text="Sunday"/>
+
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="5" Grid.Column="1" Text="Monday"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="5" Grid.Column="2" Text="Tuesday"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="5" Grid.Column="3" Text="Wednesday"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="5" Grid.Column="4" Text="Thursday"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="5" Grid.Column="5" Text="Friday"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="5" Grid.Column="6" Text="Saturday"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="5" Grid.Column="7" Text="Sunday"/>
+
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="1" Text="W44 2017"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="2" Text="W45 2017"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="3" Text="W46 2017"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="4" Text="W47 2017"/>
+
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="1" Grid.Column="8" Text="W44 2017"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="2" Grid.Column="8" Text="W45 2017"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="3" Grid.Column="8" Text="W46 2017"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="4" Grid.Column="8" Text="W47 2017"/>
+        
+        <ListView Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Events[0]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="2" Grid.Row="1" ItemsSource="{Binding Events[1]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="3" Grid.Row="1" ItemsSource="{Binding Events[2]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="4" Grid.Row="1" ItemsSource="{Binding Events[3]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="5" Grid.Row="1" ItemsSource="{Binding Events[4]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="6" Grid.Row="1" ItemsSource="{Binding Events[5]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="7" Grid.Row="1" ItemsSource="{Binding Events[6]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+
+        <ListView Grid.Column="1" Grid.Row="2" ItemsSource="{Binding Events[7]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="2" Grid.Row="2" ItemsSource="{Binding Events[8]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="3" Grid.Row="2" ItemsSource="{Binding Events[9]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="4" Grid.Row="2" ItemsSource="{Binding Events[10]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="5" Grid.Row="2" ItemsSource="{Binding Events[11]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="6" Grid.Row="2" ItemsSource="{Binding Events[12]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="7" Grid.Row="2" ItemsSource="{Binding Events[13]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+
+        <ListView Grid.Column="1" Grid.Row="3" ItemsSource="{Binding Events[14]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="2" Grid.Row="3" ItemsSource="{Binding Events[15]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="3" Grid.Row="3" ItemsSource="{Binding Events[16]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="4" Grid.Row="3" ItemsSource="{Binding Events[17]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="5" Grid.Row="3" ItemsSource="{Binding Events[18]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="6" Grid.Row="3" ItemsSource="{Binding Events[19]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="7" Grid.Row="3" ItemsSource="{Binding Events[20]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+
+        <ListView Grid.Column="1" Grid.Row="4" ItemsSource="{Binding Events[21]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="2" Grid.Row="4" ItemsSource="{Binding Events[22]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="3" Grid.Row="4" ItemsSource="{Binding Events[23]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="4" Grid.Row="4" ItemsSource="{Binding Events[24]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="5" Grid.Row="4" ItemsSource="{Binding Events[25]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="6" Grid.Row="4" ItemsSource="{Binding Events[26]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+        <ListView Grid.Column="7" Grid.Row="4" ItemsSource="{Binding Events[27]}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddEvent}"/>
+            </ListView.InputBindings>
+        </ListView>
+    </Grid>
+</Window>
