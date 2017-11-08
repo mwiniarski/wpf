@@ -88,7 +88,7 @@
                             <MouseBinding MouseAction="LeftDoubleClick" CommandParameter="{Binding}" Command="{Binding DataContext.AddEvent, RelativeSource={RelativeSource AncestorType=Window}}"/>
                         </StackPanel.InputBindings>
                         <TextBlock Name="date" Text="{Binding Date}" HorizontalAlignment="Center"/>
-                        <ItemsControl MouseLeftButtonDown="ItemsControl_MouseLeftButtonDown" ItemsSource="{Binding Events}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" >
+                        <ItemsControl ItemsSource="{Binding Events}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" >
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Title}">

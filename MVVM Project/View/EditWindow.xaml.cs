@@ -31,7 +31,20 @@ namespace Calendar.View
 
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
+            int result;
+            int maxVal;
+            var tb = ((TextBox)sender);
+            string s = tb.Text + e.Text;
 
+            if (tb.Name == "hour")
+                maxVal = 23;
+            else
+                maxVal = 59;
+
+            if (!(int.TryParse(s, out result)) || result < 0 || result > maxVal)
+            {
+                e.Handled = true;
+            }
         }
     }
 }

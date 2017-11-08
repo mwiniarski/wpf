@@ -18,11 +18,6 @@ namespace Calendar.Model
             set { _title = value; }
         }
 
-        public int Time
-        {
-
-        }
-
         public override string ToString()
         {
             return Title;
