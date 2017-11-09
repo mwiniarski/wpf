@@ -3,10 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Xml.Serialization;
 
 namespace Calendar.ViewModel
 {
@@ -24,28 +28,66 @@ namespace Calendar.ViewModel
         }
 
         ObservableCollection<Day> days = new ObservableCollection<Day>();
-
-        public DayViewModel()
-        {
-            for(int i=0; i < 28; i++)
-            {
-                ObservableCollection<CalendarEvent> ev = new ObservableCollection<CalendarEvent>();
-                ev.Add(new CalendarEvent{ Title = "Nowiutki event!"});
-                Day day = new Day{ Date = string.Format("Nov {0}", i), Events = ev};
-                days.Add(day);
-            }
-        }
-
         public ObservableCollection<Day> Days
         {
             get { return days; }
             set { days = value; }
         }
 
+        Year _year;
+        public Year CurrentYear
+        {
+            get { return _year; }
+            set { _year = value; }
+        }
+
+        public DayViewModel()
+        {
+            LoadFromFile();
+            for(int i=0; i < 28; i++)
+            {
+                Days.Add(CurrentYear.Days[i + CurrentYear.Week * 7 - 6]);
+            }
+        }
+
+        private void UpdateCalendar()
+        {
+            Days.Clear();
+
+            for (int i = 0; i < 28; i++)
+            {
+                Days.Add(CurrentYear.Days[i + _year.Week * 7 - 6]);
+            }
+        }
+
+        private void SaveToFile()
+        {
+            XmlSerializer xs = new XmlSerializer(typeof(Year));
+            TextWriter tw = new StreamWriter(@"C:\Temp\garage.xml");
+            xs.Serialize(tw, CurrentYear);
+        }
+
+        private void LoadFromFile()
+        {
+            XmlSerializer xs = new XmlSerializer(typeof(Year));
+            try {
+                var sr = new StreamReader(@"C:\Temp\garage.xml");
+                CurrentYear = (Year)xs.Deserialize(sr);
+                CurrentYear.InitYear(true);
+                sr.Close();
+            }  
+            catch (Exception e)
+            {
+                CurrentYear = new Year();
+                CurrentYear.InitYear(false);
+            }
+        }
+
         public void AddEventToDay(Day d, CalendarEvent ev)
         {
             d.Events.Add(ev);
             d.Events = new ObservableCollection<CalendarEvent>(d.Events.OrderBy(i => i.Time));
+            SaveToFile();
         }
 
         public void EditEventOnDay(Day d, CalendarEvent Old, CalendarEvent New)
@@ -53,22 +95,26 @@ namespace Calendar.ViewModel
             d.Events.Remove(Old);
             d.Events.Add(New);
             d.Events = new ObservableCollection<CalendarEvent>(d.Events.OrderBy(i => i.Time));
+            SaveToFile();
         }
 
-        void AddEventMethod(Object parameter)
+        void PreviousWeekMethod(Object parameter)
         {
-            Day day = parameter as Day;
-            Console.WriteLine(day.Date);
+            if (CurrentYear.Week == 1)
+                return;
+            CurrentYear.Week -= 1;
+            UpdateCalendar();
         }
-        public ICommand AddEvent { get { return new RelayCommand(AddEventMethod); } }
+        public ICommand PrevWeek { get { return new RelayCommand(PreviousWeekMethod); } }
 
-        void EditEventMethod(Object parameter)
+        void NextWeekMethod(Object parameter)
         {
-            CalendarEvent ev = parameter as CalendarEvent;
-            Console.WriteLine(ev.Title);
-
+            if (CurrentYear.Week == 49)
+                return;
+            CurrentYear.Week += 1;
+            UpdateCalendar();
         }
-        public ICommand EditEvent { get { return new RelayCommand(EditEventMethod); } }
+        public ICommand NextWeek { get { return new RelayCommand(NextWeekMethod); } }
 
     }
 }

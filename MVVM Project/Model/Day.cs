@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Calendar.Model
 {
-    class Day : INotifyPropertyChanged
+    public class Day : INotifyPropertyChanged
     {
         ObservableCollection<CalendarEvent> _events = new ObservableCollection<CalendarEvent>();
-        string _date;
+        DateTime _date = new DateTime();
 
         public ObservableCollection<CalendarEvent> Events
         {
@@ -19,10 +19,15 @@ namespace Calendar.Model
             set { _events = value; RaisePropertyChanged("Events"); }
         }
 
-        public string Date
+        public DateTime Date
         {
             get { return _date; }
             set { _date = value;  }
+        }
+
+        public String DateString
+        {
+            get { return String.Format("{0:MMM d}", Date); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
