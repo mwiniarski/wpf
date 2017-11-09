@@ -9,6 +9,9 @@
         <vm:EditViewModel x:Name="editVM"/>
     </Window.DataContext>
     <Grid>
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="VisConverter"/>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -27,6 +30,13 @@
             <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" Content=":"/>
             <TextBox Text="{Binding Minute}" PreviewTextInput="TextBox_PreviewTextInput" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="2" Margin="0,5,50,5"/>
         </Grid>
-        <Button Command="{Binding CloseCommand}"  Grid.Row="3" Margin="10" Content="Confirm"/>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Command="{Binding CloseCommand}"  Grid.Row="3" Grid.Column="1" Margin="10" Content="Confirm"/>
+            <Button Command="{Binding RemoveCommand}" Grid.Row="3" Margin="10" Content="Remove" Visibility="{Binding Path=Edit, Converter={StaticResource VisConverter}}"/>
+        </Grid>
     </Grid>
 </Window>

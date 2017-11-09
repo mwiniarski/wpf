@@ -43,7 +43,6 @@ namespace Calendar.View
 
             if (e.OriginalSource is StackPanel)
             {
-                
                 bool? res = wnd.ShowDialog();
                 if (res.HasValue && res.Value)
                 {
@@ -57,13 +56,18 @@ namespace Calendar.View
                 if(t.Name != "date")
                 {
                     CalendarEvent ce = (CalendarEvent)t.DataContext;
+                    editVM.Edit = true;
                     editVM.Title = ce.Title;
                     editVM.Hour = string.Format("{0}", ce.Time.Hour);
                     editVM.Minute = string.Format("{0}", ce.Time.Minute);
                     bool? res = wnd.ShowDialog();
                     if (res.HasValue && res.Value)
                     {
-                        if (editVM.isValid())
+                        if (editVM.Remove)
+                        {
+                            mainVM.RemoveEventFromDay(d, ce);
+                        } 
+                        else if (editVM.isValid())
                             mainVM.EditEventOnDay(d, ce, editVM.MakeCalendarEvent());
                     }
                 }

@@ -20,15 +20,51 @@ namespace Calendar.ViewModel
                         CloseAction();
                     }
             ));
+
+            RemoveCommand = new RelayCommand(
+                new Action<object>(
+                    delegate(object obj)
+                    {
+                        RemoveAction();
+                    }
+            ));
         }
 
         public Action CloseAction { get; set; }
+        public Action RemoveAction { get; set; }
 
         private ICommand closeCommand;
         public ICommand CloseCommand
         {
             get { return closeCommand; }
             set { closeCommand = value; }
+        }
+
+        private ICommand _rmCommand;
+        public ICommand RemoveCommand
+        {
+            get { return _rmCommand; }
+            set { _rmCommand = value; }
+        }
+
+        private bool _edit = false;
+        public bool Edit
+        {
+            get { return _edit; }
+            set
+            {
+                if (value == _edit)
+                    return;
+                _edit = value;
+                OnPropertyChanged("Edit");
+            }
+        }
+
+        private bool _remove = false;
+        public bool Remove
+        {
+            get { return _remove; }
+            set { _remove = value; }
         }
 
         private string _title = "";

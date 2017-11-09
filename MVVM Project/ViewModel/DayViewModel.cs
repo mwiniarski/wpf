@@ -14,7 +14,7 @@ using System.Xml.Serialization;
 
 namespace Calendar.ViewModel
 {
-    class DayViewModel : INotifyPropertyChanged
+    public class DayViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void RaisePropertyChanged(string propertyName)
@@ -27,6 +27,20 @@ namespace Calendar.ViewModel
             }
         }
 
+        public DayViewModel()
+        {
+            LoadFromFile();
+            for (int i = 0; i < 28; i++)
+            {
+                Days.Add(CurrentYear.Days[i + CurrentYear.Week * 7 - 6]);
+            }
+
+            for (int i=0; i < 4; i++)
+            {
+                W.Add(string.Format("W{0} 2017", CurrentYear.Week + i));
+            }
+        }
+
         ObservableCollection<Day> days = new ObservableCollection<Day>();
         public ObservableCollection<Day> Days
         {
@@ -34,20 +48,18 @@ namespace Calendar.ViewModel
             set { days = value; }
         }
 
+        ObservableCollection<string> _w = new ObservableCollection<string>();
+        public ObservableCollection<string> W
+        {
+            get { return _w; }
+            set { _w = value; }
+        }
+
         Year _year;
         public Year CurrentYear
         {
             get { return _year; }
             set { _year = value; }
-        }
-
-        public DayViewModel()
-        {
-            LoadFromFile();
-            for(int i=0; i < 28; i++)
-            {
-                Days.Add(CurrentYear.Days[i + CurrentYear.Week * 7 - 6]);
-            }
         }
 
         private void UpdateCalendar()
@@ -58,12 +70,18 @@ namespace Calendar.ViewModel
             {
                 Days.Add(CurrentYear.Days[i + _year.Week * 7 - 6]);
             }
+
+            W.Clear();
+            for (int i = 0; i < 4; i++)
+            {
+                W.Add(string.Format("W{0} 2017", CurrentYear.Week + i));
+            }
         }
 
         private void SaveToFile()
         {
             XmlSerializer xs = new XmlSerializer(typeof(Year));
-            TextWriter tw = new StreamWriter(@"C:\Temp\garage.xml");
+            TextWriter tw = new StreamWriter(@"H:\garage.xml");
             xs.Serialize(tw, CurrentYear);
         }
 
@@ -71,7 +89,7 @@ namespace Calendar.ViewModel
         {
             XmlSerializer xs = new XmlSerializer(typeof(Year));
             try {
-                var sr = new StreamReader(@"C:\Temp\garage.xml");
+                var sr = new StreamReader(@"H:\garage.xml");
                 CurrentYear = (Year)xs.Deserialize(sr);
                 CurrentYear.InitYear(true);
                 sr.Close();
@@ -98,6 +116,12 @@ namespace Calendar.ViewModel
             SaveToFile();
         }
 
+        public void RemoveEventFromDay(Day d, CalendarEvent ev)
+        {
+            d.Events.Remove(ev);
+            SaveToFile();
+        }
+
         void PreviousWeekMethod(Object parameter)
         {
             if (CurrentYear.Week == 1)
@@ -105,6 +129,7 @@ namespace Calendar.ViewModel
             CurrentYear.Week -= 1;
             UpdateCalendar();
         }
+
         public ICommand PrevWeek { get { return new RelayCommand(PreviousWeekMethod); } }
 
         void NextWeekMethod(Object parameter)
