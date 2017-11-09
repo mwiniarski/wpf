@@ -9,18 +9,23 @@ namespace Calendar.Model
     class CalendarEvent
     {
         string _title;
-        int hour;
-        int minute;
+        DateTime _time = new DateTime();
 
         public string Title
         {
             get { return _title; }
             set { _title = value; }
         }
+        
+        public DateTime Time
+        {
+            get { return _time; }
+            set { _time = value; }
+        }
 
         public override string ToString()
         {
-            return Title;
+            return Time.ToString("HH:mm") + " " + _title;
         }
     }
 }

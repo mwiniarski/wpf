@@ -38,15 +38,17 @@ namespace Calendar.View
         {
             Day d = (Day)((StackPanel)sender).DataContext;
             DayViewModel mainVM = this.dayVM;
+            EditWindow wnd = new EditWindow();
+            EditViewModel editVM = wnd.editVM;
 
             if (e.OriginalSource is StackPanel)
             {
-                EditWindow wnd = new EditWindow();
-                EditViewModel editVM = wnd.editVM;
+                
                 bool? res = wnd.ShowDialog();
                 if (res.HasValue && res.Value)
                 {
-                    mainVM.AddEventToDay(d, new CalendarEvent { Title = editVM.Title });
+                    if(editVM.isValid())
+                        mainVM.AddEventToDay(d, editVM.MakeCalendarEvent());
                 }
             }
             else if (e.OriginalSource is TextBlock)
@@ -55,7 +57,15 @@ namespace Calendar.View
                 if(t.Name != "date")
                 {
                     CalendarEvent ce = (CalendarEvent)t.DataContext;
-                    mainVM.EditEventOnDay(d, ce);
+                    editVM.Title = ce.Title;
+                    editVM.Hour = string.Format("{0}", ce.Time.Hour);
+                    editVM.Minute = string.Format("{0}", ce.Time.Minute);
+                    bool? res = wnd.ShowDialog();
+                    if (res.HasValue && res.Value)
+                    {
+                        if (editVM.isValid())
+                            mainVM.EditEventOnDay(d, ce, editVM.MakeCalendarEvent());
+                    }
                 }
             }
         }        

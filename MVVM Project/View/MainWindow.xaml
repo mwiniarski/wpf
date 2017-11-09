@@ -10,12 +10,6 @@
         <vm:DayViewModel x:Name="dayVM"/>
     </Window.DataContext>
     <Window.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Command" Value="{Binding ButtonCommandProperty}"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="Foreground" Value="#00008f"/>
-        </Style>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="#00008f"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -91,7 +85,7 @@
                         <ItemsControl ItemsSource="{Binding Events}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" >
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Title}">
+                                    <TextBlock Text="{Binding}">
                                         <TextBlock.InputBindings>
                                             <MouseBinding MouseAction="LeftDoubleClick" CommandParameter="{Binding}" Command="{Binding DataContext.EditEvent, RelativeSource={RelativeSource AncestorType=Window}}"/>
                                         </TextBlock.InputBindings>

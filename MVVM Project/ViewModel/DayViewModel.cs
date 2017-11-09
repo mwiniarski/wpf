@@ -45,15 +45,14 @@ namespace Calendar.ViewModel
         public void AddEventToDay(Day d, CalendarEvent ev)
         {
             d.Events.Add(ev);
-            d.Events = new ObservableCollection<CalendarEvent>(d.Events.OrderBy(i => i.Title));
+            d.Events = new ObservableCollection<CalendarEvent>(d.Events.OrderBy(i => i.Time));
         }
 
-        public void EditEventOnDay(Day d, CalendarEvent ev)
+        public void EditEventOnDay(Day d, CalendarEvent Old, CalendarEvent New)
         {
-            d.Events.Remove(ev);
-            ev.Title = "HEHEHE";
-            d.Events.Add(ev);
-            d.Events = new ObservableCollection<CalendarEvent>(d.Events.OrderBy(i => i.Title));
+            d.Events.Remove(Old);
+            d.Events.Add(New);
+            d.Events = new ObservableCollection<CalendarEvent>(d.Events.OrderBy(i => i.Time));
         }
 
         void AddEventMethod(Object parameter)
