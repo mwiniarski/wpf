@@ -59,15 +59,15 @@
         <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="5" Grid.Column="6" Text="Saturday"/>
         <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="5" Grid.Column="7" Text="Sunday"/>
 
-        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="1" Text="W44 2017"/>
-        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="2" Text="W45 2017"/>
-        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="3" Text="W46 2017"/>
-        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="4" Text="W47 2017"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="1" Text="{Binding W[0]}"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="2" Text="{Binding W[1]}"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="3" Text="{Binding W[2]}"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="4" Text="{Binding W[3]}"/>
 
-        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="1" Grid.Column="8" Text="W44 2017"/>
-        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="2" Grid.Column="8" Text="W45 2017"/>
-        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="3" Grid.Column="8" Text="W46 2017"/>
-        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="4" Grid.Column="8" Text="W47 2017"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="1" Grid.Column="8" Text="{Binding W[0]}"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="2" Grid.Column="8" Text="{Binding W[1]}"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="3" Grid.Column="8" Text="{Binding W[2]}"/>
+        <TextBlock RenderTransformOrigin="2.25, 0.435" Grid.Row="4" Grid.Column="8" Text="{Binding W[3]}"/>
 
         <ItemsControl Grid.Row="1" Grid.Column="1" Grid.RowSpan="4" Grid.ColumnSpan="7" ItemsSource="{Binding Days}">
             <ItemsControl.ItemsPanel>
@@ -80,7 +80,7 @@
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <StackPanel Background="White" Margin="1" PreviewMouseLeftButtonUp="StackPanel_PreviewMouseDoubleClick">
                             <TextBlock Name="date" Text="{Binding DateString}" HorizontalAlignment="Left" Margin="20,0,0,0"/>
-                            <ItemsControl ItemsSource="{Binding Events}" Height="Auto" >
+                            <ItemsControl ItemsSource="{Binding Events}" Height="Auto">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding}"/>

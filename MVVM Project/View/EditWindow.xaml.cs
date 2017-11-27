@@ -27,6 +27,13 @@ namespace Calendar.View
                 this.DialogResult = true;
                 this.Close();
             });
+
+            this.editVM.RemoveAction = new Action(() =>
+            {
+                this.DialogResult = true;
+                this.editVM.Remove = true;
+                this.Close();
+            });
         }
 
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
