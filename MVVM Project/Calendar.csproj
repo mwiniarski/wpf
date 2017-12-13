@@ -112,6 +112,10 @@
     <Compile Include="Migrations\201712131656404_add-user-index.Designer.cs">
       <DependentUpon>201712131656404_add-user-index.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712132029455_rowversion.cs" />
+    <Compile Include="Migrations\201712132029455_rowversion.Designer.cs">
+      <DependentUpon>201712132029455_rowversion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Appointment.cs" />
     <Compile Include="Model\Attendance.cs" />
@@ -159,6 +163,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712131656404_add-user-index.resx">
       <DependentUpon>201712131656404_add-user-index.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712132029455_rowversion.resx">
+      <DependentUpon>201712132029455_rowversion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

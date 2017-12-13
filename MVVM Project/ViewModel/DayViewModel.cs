@@ -98,17 +98,21 @@ namespace Calendar.ViewModel
 
         public void EditEventOnDay(Day d, Appointment Old, Appointment New)
         {
-            d.Events.Remove(Old);
             New.StartTime = new DateTime(d.Date.Year, d.Date.Month, d.Date.Day, New.StartTime.Hour, New.StartTime.Minute, 0);
-            d.Events.Add(New);
-            d.Events = new ObservableCollection<Appointment>(d.Events.OrderBy(i => i.StartTime));
-            Db.updateAppointment(Old, New);
+            if (Db.updateAppointment(Old, New))
+            {
+                d.Events.Remove(Old);
+                d.Events.Add(New);
+                d.Events = new ObservableCollection<Appointment>(d.Events.OrderBy(i => i.StartTime));
+            }
         }
 
-        public void RemoveEventFromDay(Day d, Appointment ev)
+        public void RemoveEventFromDay(Day d, Appointment Old)
         {
-            d.Events.Remove(ev);
-            Db.removeAppointment(ev);
+            if (Db.removeAppointment(Old))
+            {
+                d.Events.Remove(Old);
+            }
         }
 
         void PreviousWeekMethod(Object parameter)

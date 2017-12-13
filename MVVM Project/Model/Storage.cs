@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,7 +70,7 @@ namespace Calendar.Model
         //    }
         //}
 
-        public void updateAppointment(Appointment Old, Appointment New)
+        public bool updateAppointment(Appointment Old, Appointment New)
         {
             using (var db = new StorageContext())
             {
@@ -78,12 +79,22 @@ namespace Calendar.Model
                 {
                     original.StartTime = New.StartTime;
                     original.Title = New.Title;
-                    db.SaveChanges();
+
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch(DbUpdateConcurrencyException ex)
+                    {
+                        Console.WriteLine("Error while updating database! Try again.");
+                        return false;
+                    }                     
                 }
             }
+            return true;
         }
 
-        public void removeAppointment(Appointment Old)
+        public bool removeAppointment(Appointment Old)
         {
             using (var db = new StorageContext())
             {
@@ -91,9 +102,19 @@ namespace Calendar.Model
                 if (original != null)
                 {
                     db.Appointments.Remove(original);
-                    db.SaveChanges();
+
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        Console.WriteLine("Error while updating database! Try again.");
+                        return false;
+                    }      
                 }
             }
+            return true;
         }
     }
 }

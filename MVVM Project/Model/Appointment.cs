@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,9 @@ namespace Calendar.Model
         public string Title { get; set; }
         public DateTime StartTime { get; set; }
         public virtual List<Attendance> Attendances { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
 
         public override string ToString()
         {
