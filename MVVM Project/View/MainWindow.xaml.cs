@@ -47,7 +47,7 @@ namespace Calendar.View
                 if (res.HasValue && res.Value)
                 {
                     if(editVM.isValid())
-                        mainVM.AddEventToDay(d, editVM.MakeCalendarEvent());
+                        mainVM.AddEventToDay(d, editVM.MakeAppointment());
                 }
             }
             else if (e.OriginalSource is TextBlock)
@@ -55,11 +55,11 @@ namespace Calendar.View
                 var t = (TextBlock)e.OriginalSource;
                 if(t.Name != "date")
                 {
-                    CalendarEvent ce = (CalendarEvent)t.DataContext;
+                    Appointment ce = (Appointment)t.DataContext;
                     editVM.Edit = true;
                     editVM.Title = ce.Title;
-                    editVM.Hour = string.Format("{0}", ce.Time.Hour);
-                    editVM.Minute = string.Format("{0}", ce.Time.Minute);
+                    editVM.Hour = string.Format("{0}", ce.StartTime.Hour);
+                    editVM.Minute = string.Format("{0}", ce.StartTime.Minute);
                     bool? res = wnd.ShowDialog();
                     if (res.HasValue && res.Value)
                     {
@@ -68,7 +68,7 @@ namespace Calendar.View
                             mainVM.RemoveEventFromDay(d, ce);
                         } 
                         else if (editVM.isValid())
-                            mainVM.EditEventOnDay(d, ce, editVM.MakeCalendarEvent());
+                            mainVM.EditEventOnDay(d, ce, editVM.MakeAppointment());
                     }
                 }
             }

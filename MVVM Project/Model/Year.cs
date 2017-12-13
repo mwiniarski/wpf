@@ -11,9 +11,12 @@ namespace Calendar.Model
     public class Year
     {
         public Year() 
-        {}
+        {
+            Days = new ObservableCollection<Day>();
+        }
 
-        ObservableCollection<Day> _days = new ObservableCollection<Day>();
+        public ObservableCollection<Day> Days { get; set; }
+        public int Week { get; set; }
 
         public void InitYear(bool serialized)
         {
@@ -22,25 +25,12 @@ namespace Calendar.Model
             if (!serialized)
             {
                 DateTime dt = new DateTime(2017, 1, 1);
-                for (int i = 0; i < 365; i++)
-                {
+                for (int i = 0; i < 500; i++)
+                {   
                     Days.Add(new Day { Date = dt });
                     dt = dt.AddDays(1);
                 }
             }
-        }
-
-        public ObservableCollection<Day> Days
-        {
-            get { return _days; }
-            set { _days = value; }
-        }
-
-        int _week;
-        public int Week
-        {
-            get { return _week; }
-            set { _week = value; }
         }
     }
 }

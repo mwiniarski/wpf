@@ -105,12 +105,11 @@ namespace Calendar.ViewModel
                 OnPropertyChanged("Minute");
             }
         }
-        
-        public CalendarEvent MakeCalendarEvent()
+
+        public Appointment MakeAppointment()
         {
             var t = DateTime.Parse(string.Format("{0}:{1}", Hour, Minute));
-            Console.WriteLine(t);
-            return new CalendarEvent { Title = Title, Time = t };
+            return new Appointment { Title = Title, StartTime = t };
         }
 
         public bool isValid()

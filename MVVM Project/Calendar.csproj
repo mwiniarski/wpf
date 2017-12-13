@@ -54,7 +54,14 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -85,8 +92,33 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Migrations\201712111358532_InitialCreate.cs" />
+    <Compile Include="Migrations\201712111358532_InitialCreate.Designer.cs">
+      <DependentUpon>201712111358532_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712111530249_person-max-length.cs" />
+    <Compile Include="Migrations\201712111530249_person-max-length.Designer.cs">
+      <DependentUpon>201712111530249_person-max-length.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712111648235_adjust-appointment.cs" />
+    <Compile Include="Migrations\201712111648235_adjust-appointment.Designer.cs">
+      <DependentUpon>201712111648235_adjust-appointment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712111840440_add-Ids.cs" />
+    <Compile Include="Migrations\201712111840440_add-Ids.Designer.cs">
+      <DependentUpon>201712111840440_add-Ids.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712131656404_add-user-index.cs" />
+    <Compile Include="Migrations\201712131656404_add-user-index.Designer.cs">
+      <DependentUpon>201712131656404_add-user-index.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\Appointment.cs" />
+    <Compile Include="Model\Attendance.cs" />
+    <Compile Include="Model\Person.cs" />
+    <Compile Include="Model\StorageContext.cs" />
+    <Compile Include="Model\Storage.cs" />
     <Compile Include="Model\Year.cs" />
-    <Compile Include="Model\CalendarEvent.cs" />
     <Compile Include="Model\Day.cs" />
     <Compile Include="ViewModel\DayViewModel.cs" />
     <Compile Include="ViewModel\EditViewModel.cs" />
@@ -113,10 +145,26 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\201712111358532_InitialCreate.resx">
+      <DependentUpon>201712111358532_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712111530249_person-max-length.resx">
+      <DependentUpon>201712111530249_person-max-length.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712111648235_adjust-appointment.resx">
+      <DependentUpon>201712111648235_adjust-appointment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712111840440_add-Ids.resx">
+      <DependentUpon>201712111840440_add-Ids.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712131656404_add-user-index.resx">
+      <DependentUpon>201712131656404_add-user-index.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

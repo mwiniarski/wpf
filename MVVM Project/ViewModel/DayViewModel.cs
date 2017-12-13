@@ -17,6 +17,12 @@ namespace Calendar.ViewModel
     public class DayViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public ObservableCollection<String> W { get; set; }
+        public ObservableCollection<Day> Days { get; set; }
+
+        Year CurrentYear { get; set; }
+        Storage Db;
         private void RaisePropertyChanged(string propertyName)
         {
             // take a copy to prevent thread issues
@@ -29,37 +35,38 @@ namespace Calendar.ViewModel
 
         public DayViewModel()
         {
-            LoadFromFile();
+            Db = new Storage();
+            W = new ObservableCollection<String>();
+            Days = new ObservableCollection<Day>();
+            Db.logInPerson(Environment.GetCommandLineArgs()[1]);
+            CurrentYear = new Year();
+            CurrentYear.InitYear(false);
+            LoadFromDb();
+
             for (int i = 0; i < 28; i++)
             {
                 Days.Add(CurrentYear.Days[i + CurrentYear.Week * 7 - 6]);
             }
 
-            for (int i=0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
-                W.Add(string.Format("W{0} 2017", CurrentYear.Week + i));
+                if (CurrentYear.Week + i > 52)
+                    W.Add(String.Format("W{0} 2018", CurrentYear.Week + i - 52));
+                else
+                    W.Add(String.Format("W{0} 2017", CurrentYear.Week + i));
             }
         }
 
-        ObservableCollection<Day> days = new ObservableCollection<Day>();
-        public ObservableCollection<Day> Days
+        private void LoadFromDb()
         {
-            get { return days; }
-            set { days = value; }
-        }
-
-        ObservableCollection<string> _w = new ObservableCollection<string>();
-        public ObservableCollection<string> W
-        {
-            get { return _w; }
-            set { _w = value; }
-        }
-
-        Year _year;
-        public Year CurrentYear
-        {
-            get { return _year; }
-            set { _year = value; }
+            var appointments = Db.getAppointments();
+            foreach(var ap in appointments)
+            {
+                if(ap.StartTime.Year == 2017)
+                    CurrentYear.Days[ap.StartTime.DayOfYear - 1].Events.Add(ap);
+                else
+                    CurrentYear.Days[ap.StartTime.DayOfYear + 364].Events.Add(ap);
+            }
         }
 
         private void UpdateCalendar()
@@ -68,58 +75,40 @@ namespace Calendar.ViewModel
 
             for (int i = 0; i < 28; i++)
             {
-                Days.Add(CurrentYear.Days[i + _year.Week * 7 - 6]);
+                Days.Add(CurrentYear.Days[i + CurrentYear.Week * 7 - 6]);
             }
 
             W.Clear();
             for (int i = 0; i < 4; i++)
             {
-                W.Add(string.Format("W{0} 2017", CurrentYear.Week + i));
+                if (CurrentYear.Week + i > 52)
+                    W.Add(String.Format("W{0} 2018", CurrentYear.Week + i - 52));
+                else
+                    W.Add(String.Format("W{0} 2017", CurrentYear.Week + i));
             }
         }
 
-        private void SaveToFile()
+        public void AddEventToDay(Day d, Appointment New)
         {
-            XmlSerializer xs = new XmlSerializer(typeof(Year));
-            TextWriter tw = new StreamWriter(@"H:\garage.xml");
-            xs.Serialize(tw, CurrentYear);
+            New.StartTime = new DateTime(d.Date.Year, d.Date.Month, d.Date.Day, New.StartTime.Hour, New.StartTime.Minute, 0);
+            d.Events.Add(New);
+            d.Events = new ObservableCollection<Appointment>(d.Events.OrderBy(i => i.StartTime));
+            Db.addAppointment(New);
         }
 
-        private void LoadFromFile()
-        {
-            XmlSerializer xs = new XmlSerializer(typeof(Year));
-            try {
-                var sr = new StreamReader(@"H:\garage.xml");
-                CurrentYear = (Year)xs.Deserialize(sr);
-                CurrentYear.InitYear(true);
-                sr.Close();
-            }  
-            catch (Exception e)
-            {
-                CurrentYear = new Year();
-                CurrentYear.InitYear(false);
-            }
-        }
-
-        public void AddEventToDay(Day d, CalendarEvent ev)
-        {
-            d.Events.Add(ev);
-            d.Events = new ObservableCollection<CalendarEvent>(d.Events.OrderBy(i => i.Time));
-            SaveToFile();
-        }
-
-        public void EditEventOnDay(Day d, CalendarEvent Old, CalendarEvent New)
+        public void EditEventOnDay(Day d, Appointment Old, Appointment New)
         {
             d.Events.Remove(Old);
+            New.StartTime = new DateTime(d.Date.Year, d.Date.Month, d.Date.Day, New.StartTime.Hour, New.StartTime.Minute, 0);
             d.Events.Add(New);
-            d.Events = new ObservableCollection<CalendarEvent>(d.Events.OrderBy(i => i.Time));
-            SaveToFile();
+            d.Events = new ObservableCollection<Appointment>(d.Events.OrderBy(i => i.StartTime));
+            Db.updateAppointment(Old, New);
         }
 
-        public void RemoveEventFromDay(Day d, CalendarEvent ev)
+        public void RemoveEventFromDay(Day d, Appointment ev)
         {
             d.Events.Remove(ev);
-            SaveToFile();
+            Db.removeAppointment(ev);
         }
 
         void PreviousWeekMethod(Object parameter)
@@ -134,7 +123,7 @@ namespace Calendar.ViewModel
 
         void NextWeekMethod(Object parameter)
         {
-            if (CurrentYear.Week == 49)
+            if (CurrentYear.Week == 65)
                 return;
             CurrentYear.Week += 1;
             UpdateCalendar();

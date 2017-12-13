@@ -10,20 +10,20 @@ namespace Calendar.Model
 {
     public class Day : INotifyPropertyChanged
     {
-        ObservableCollection<CalendarEvent> _events = new ObservableCollection<CalendarEvent>();
-        DateTime _date = new DateTime();
+        public Day() 
+        {
+            Date = new DateTime();
+        }
 
-        public ObservableCollection<CalendarEvent> Events
+        ObservableCollection<Appointment> _events = new ObservableCollection<Appointment>();
+
+        public ObservableCollection<Appointment> Events
         {
             get { return _events; }
             set { _events = value; RaisePropertyChanged("Events"); }
         }
 
-        public DateTime Date
-        {
-            get { return _date; }
-            set { _date = value;  }
-        }
+        public DateTime Date { get; set; }
 
         public String DateString
         {
